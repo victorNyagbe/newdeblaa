@@ -1,0 +1,48 @@
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+    width: 20%;
+    background-color: #222;
+}
+
+.asside-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 80%;
+}
+
+.menu-item-cover a {
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.menu-item-cover a:hover, .menu-item-cover a:focus, .menu-item-cover a:active {
+    color: #FFF;
+    font-weight: 400;
+}
+
+.menu-item-cover a div {
+    padding: 8px 0;
+}
+
+.font-size-14 {
+    font-size: 14px;
+}
+
+form .modal-body input, form .modal-footer button, form .modal-body select {
+    border-radius: 20px;
+}
+
+input, select {
+    font-size: 14px !important;
+}
+
+label {
+    margin-bottom: 0;
+}

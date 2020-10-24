@@ -67,7 +67,7 @@
 
                 <a class="nav-link white-text" href="#"><b>Contactez-nous</b></a>
 
-                <a class="nav-link white black-text font-weight-bold" href="#"><b>Connexion</b></a>
+                <a class="nav-link white black-text font-weight-bold" href="{{ route('structure.loginForm') }}"><b>Connexion</b></a>
             </form>
         </div>
     </nav>
@@ -82,12 +82,12 @@
                 </div>
 
                 <div class="mmsText text-center text-white">
-                    <span>Professionnal Communication Gate</span>
+                    <span>Portail de communication professionnelle</span>
                 </div>
             </div>
         </div>
         <div class="d-flex justify-content-center mt-3">
-            <a class="white black-text px-5 py-2 rounded" href="#"><b>Connexion</b></a>
+            <a class="white black-text px-5 py-2 rounded" href="{{ route('structure.loginForm') }}"><b>Connexion</b></a>
         </div>
     </div>
 @endsection
