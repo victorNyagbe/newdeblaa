@@ -506,6 +506,7 @@ class ComposerStaticInit65320b139647c9c9da35e23bacf2f715
         'App\\Contact' => __DIR__ . '/../..' . '/app/Contact.php',
         'App\\DefaultMessage' => __DIR__ . '/../..' . '/app/DefaultMessage.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Facture' => __DIR__ . '/../..' . '/app/Facture.php',
         'App\\Http\\Controllers\\Admin\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminController.php',
         'App\\Http\\Controllers\\Admin\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LoginController.php',
         'App\\Http\\Controllers\\Admin\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RegisterController.php',

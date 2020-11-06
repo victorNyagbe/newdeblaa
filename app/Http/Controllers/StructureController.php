@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\DefaultMessage;
+use App\Cache;
+use App\Contact;
+use App\Facture;
 use App\Message;
 use App\Structure;
+use App\DefaultMessage;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class StructureController extends Controller
@@ -62,7 +66,8 @@ class StructureController extends Controller
 
     public function message()
     {
-        $default_messages = DefaultMessage::whereIn('structure_id', [0, intval(session()->get('id'))])->get();
+        $default_messages = $this->defaultMessage();
+
         return view('structure.message', compact('default_messages'));
     }
 
@@ -109,22 +114,31 @@ class StructureController extends Controller
     public function changePassword(Request $request, Structure $structure)
     {
         $request->validate([
-            'password' => 'required|string|min:4'
+            'newpassword' => 'required|confirmed|string|min:4',
+            'oldpassword' => 'required'
         ], [
-            'password.required' => 'Veuillez renseigner le mot de passe',
-            'password.string' => 'Le mot de passe doit être une chaîne de caractères',
-            'password.min' => 'Votre mot de passe doit contenir au minimum 4 caractères',
+            'oldpassword.required' => 'Veuillez renseigner l\'ancien mot de passe',
+            'newpassword.required' => 'Veuillez renseigner le nouveau mot de passe',
+            'newpassword.string' => 'Le nouveau mot de passe doit être une chaîne de caractères',
+            'newpassword.min' => 'Votre nouveau mot de passe doit contenir au minimum 4 caractères',
+            'newpassword.confirmed' => 'Erreur de confirmation de mot de passe. les mots de passe ne sont pas identique'
         ]);
 
-        if ((Str::of($request->get('password'))->trim()) == '') {
-            return back()->with('error', 'Le mot de passe que vous avez saisi est invalide');
+        if ((Str::of($request->get('newpassword'))->trim()) == '') {
+            return back()->with('error', 'Le nouveau mot de passe que vous avez saisi est invalide');
+        } else {
+            if (Hash::check($request->get('oldpassword'), $structure->password)) {
+
+                $structure->update([
+                    'password' => Hash::make($request->get('newpassword'))
+                ]);
+
+                return back()->with('success', 'Mot de passe modifié avec succès');
+            } else {
+                return back()->with('error', 'Erreur! Ancien mot de passe erroné');
+            }
         }
 
-        $structure->update([
-            'password' => Hash::make($request->get('password'))
-        ]);
-
-        return back()->with('success', 'Mot de passe modifié avec succès');
     }
 
     public function bilan()
@@ -132,6 +146,102 @@ class StructureController extends Controller
         $bilans = Message::where('structure_id', session()->get('id'))->orderByDesc('id')->get();
 
         return view('structure.bilan', compact('bilans'));
+    }
+
+    public function show_bilan($message_id)
+    {
+        $message = Message::where('structure_id', session()->get('id'))->findOrFail($message_id);
+
+        $cacheContacts = Cache::where([
+            ['structure_id', session()->get('id')],
+            ['message_id', $message_id]
+        ])->get();
+
+        return view('structure.show_bilan', compact('cacheContacts', 'message'));
+    }
+
+    public function renvoyer_message(Request $request)
+    {
+        $findMessage = Message::where('structure_id', session()->get('id'))->find(substr($request->get('msgi'), 1));
+
+        if ($findMessage != null) {
+            $cacheContacts = Cache::where([
+                ['structure_id', session()->get('id')],
+                ['message_id', $findMessage->id]
+            ])->get();
+
+            foreach ($cacheContacts as $contact) {
+
+                $rechercher_contact = Contact::where([
+                    ['number', $contact->number],
+                    ['structure_id', session()->get('id')]
+                ])->get();
+
+                if(count($rechercher_contact) == 0) {
+                    Contact::create([
+                        'name' => $contact->name,
+                        'number' => $contact->number,
+                        'structure_id' => session()->get('id')
+                    ]);
+                }
+            }
+            
+            $default_messages = $this->defaultMessage();
+        
+            return view('structure.message', compact('default_messages'));
+
+        } else {
+            return redirect()->route('messages.bilan',)->with('error', 'Impossible d\'envoyer un message. Une erreur s\'est produite');
+        }
+    }
+
+    public function destroyDefaultMessage(DefaultMessage $defaultMessage)
+    {
+        if ($defaultMessage->structure_id != session()->get('id')) {
+            return back()->with('error', 'Vous n\'êtes pas autorisé à supprimer ce message');
+        } else {
+            $defaultMessage->delete();
+
+            return back()->with('success', 'Le message a été supprimé avec succès');
+        }
+    }
+
+    protected function defaultMessage()
+    {
+        $default_messages = DefaultMessage::whereIn('structure_id', [0, intval(session()->get('id'))])->get();
+
+        return $default_messages;
+    }
+
+    public function index_stat()
+    {
+        $statistiques = Message::where([
+            ['structure_id', session()->get('id')],
+            ['paid', 0]
+        ])->orderByDesc('id')->get();
+
+        return view('structure.statistiques.index', compact('statistiques'));
+    }
+
+    public function factures_index()
+    {
+        $factures = Facture::where('structure_id', session()->get('id'))->get();
+        return view('structure.statistiques.factureIndex', compact('factures'));
+    }
+
+    public function facture_show(Facture $facture)
+    {
+        if ($facture->structure_id != session()->get('id')) {
+            return back()->with('error', 'Désolé, une erreur s\'est produite. Vous ne pouvez pas voir les détails de cette facture');
+        } else {
+            $messages = DB::table('completions')
+                ->join('factures', 'completions.facture_id', '=', 'factures.id')
+                ->join('messages', 'completions.message_id', '=', 'messages.id')
+                ->select('messages.*')
+                ->where('factures.numero', '=', $facture->numero)
+                ->get();
+            return view('structure.statistiques.factureShow', compact('facture', 'messages'));
+        }
     }
 
 }

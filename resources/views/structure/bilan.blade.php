@@ -2,8 +2,19 @@
 
 @section('content')
     <div class="container">
-        <div class="rowc mt-5">
+        <div class="mt-3 d-flex justify-content-start">
+            <a href="{{ route('structure.index') }}" class="btn btn-sm grey darken-1 white-text">retour</a>
+        </div>
+        <div class="row mt-3">
             <div class="col-12">
+                @if ($messageError = Session::get('error'))
+                    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+                        {{ $messageError }}
+                        <button type="button" class="close" aria-label="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <div class="table-responsive-sm text-nowrap">
                     <table class="table table-striped table-sm table-bordered">
                         <thead class="light-blue darken-3 white-text">
@@ -28,7 +39,7 @@
                                     <td>{{ $bilan->destinataires }}</td>
                                     <td>{{ $bilan->created_at->format('d-m-Y') }}</td>
                                     <td>{{ $bilan->created_at->format('H:m:s') }}</td>
-                                    <td class="text-center"><a href="#" class="btn btn-sm btn-info">Voir</a></td>
+                                    <td class="text-center"><a href="{{ route('messages.showBilan', $bilan->id) }}" class="btn btn-sm btn-info">Voir</a></td>
                                 </tr>
                             @empty
                                 <tr>

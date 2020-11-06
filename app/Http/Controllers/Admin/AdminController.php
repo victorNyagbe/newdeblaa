@@ -22,7 +22,7 @@ class AdminController extends Controller
 
     public function structure()
     {
-        $structures = Structure::all();
+        $structures = Structure::with('messages')->get();
         $page = 'structure';
         return view('admin.structure', compact('structures', 'page'));
     }

@@ -11,6 +11,7 @@ return array(
     'App\\Contact' => $baseDir . '/app/Contact.php',
     'App\\DefaultMessage' => $baseDir . '/app/DefaultMessage.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Facture' => $baseDir . '/app/Facture.php',
     'App\\Http\\Controllers\\Admin\\AdminController' => $baseDir . '/app/Http/Controllers/Admin/AdminController.php',
     'App\\Http\\Controllers\\Admin\\LoginController' => $baseDir . '/app/Http/Controllers/Admin/LoginController.php',
     'App\\Http\\Controllers\\Admin\\RegisterController' => $baseDir . '/app/Http/Controllers/Admin/RegisterController.php',

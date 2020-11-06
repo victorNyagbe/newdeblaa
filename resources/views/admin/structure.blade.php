@@ -46,9 +46,16 @@
                         <tbody>
                             @foreach ($structures as $structure)
                                 <tr>
+                                    <?php
+                                        $allmessages = count($structure->messages);
+                                        $destinataires = 0;
+                                        for ($i = 0; $i < $allmessages; $i++) {
+                                            $destinataires += $structure->messages[$i]->destinataires;
+                                        }
+                                    ?>
                                     <td>{{ $structure->name }}</td>
-                                    <td>300</td>
-                                    <td>2000</td>
+                                    <td>{{ count($structure->messages) }}</td>
+                                    <td>{{ $destinataires }}</td>
                                     <td class="btn-group">
                                         <form action="" method="post">
                                             <a href="#" class="btn btn-primary btn-sm p-2 mt-0"><span class="icofont icofont-2x icofont-eye"></span></a>

@@ -21,16 +21,25 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
-        $contact = Contact::create([
-            'name' => $request->get('name'),
-            'number' => $request->get('number'),
-            'structure_id' => session()->get('id')
-        ]);
+        $rechercher_contact = Contact::where([
+            ['number', $request->get('number')],
+            ['structure_id', session()->get('id')]
+        ])->get();
 
-        if($contact) {
-            $contacts = Contact::where('structure_id', session()->get('id'))->get();
+        if (count($rechercher_contact) == 0) {
+            $contact = Contact::create([
+                'name' => $request->get('name'),
+                'number' => $request->get('number'),
+                'structure_id' => session()->get('id')
+            ]);
 
-            return response()->json($contacts);
+            if($contact) {
+                $contacts = Contact::where('structure_id', session()->get('id'))->get();
+    
+                return response()->json($contacts);
+            }
+        } else {
+            return back()->with('error', 'Ce contact existe déjà.');
         }
     }
 

@@ -5,7 +5,7 @@ namespace App;
 use App\Structure;
 use Illuminate\Database\Eloquent\Model;
 
-class DefaultMessage extends Model
+class Facture extends Model
 {
     protected $guarded = [];
 

@@ -37,6 +37,7 @@ class LoginController extends Controller
                 session()->put('id', $user->id);
                 session()->put('name', $user->name);
                 session()->put('email', $user->email);
+                session()->put('identity', 'admin');
 
                 return redirect()->route('admin.home');
             } else {

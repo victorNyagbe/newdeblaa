@@ -49,10 +49,6 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="password">Mot de passe:</label>
-                        <input type="password" name="" readonly id="passsword" class="form-control" placeholder="XXXXXXXXXX">
-                    </div>
-                    <div class="form-group">
                         <label for="image">Profil:</label>
                         <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
                         @error('image')
@@ -62,7 +58,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-blue white-text">Modifier</button>
+                        <button type="submit" class="btn btn-blue white-text">Enregistrer</button>
                         <button type="button" class="btn btn-amber white-text" data-toggle="modal" data-target="#basicPasswordModal">
                             Changer le mot de passe
                         </button>
@@ -75,7 +71,7 @@
                         <b style="font-size: 3rem;">Logo</b>
                     </div>
                 @else
-                    <img src="{{ asset('storage/'.session()->get('image')) }}" class="z-depth-0 img-fmuid w-100 img-thumbnail"
+                    <img src="{{ asset('storage/app/public/'.session()->get('image')) }}" class="z-depth-0 img-fmuid w-100 img-thumbnail"
                     alt="avatar image">
                 @endif
             </div>

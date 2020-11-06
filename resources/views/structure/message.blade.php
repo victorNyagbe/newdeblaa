@@ -4,7 +4,7 @@
     <div class="container">
         <div class="d-flex justify-content-end my-4 mr-5">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-grey darken-1 white-text" data-toggle="modal" data-target="#basicExampleModal">
+            <button type="button" class="btn btn-green darken-1 white-text" data-toggle="modal" data-target="#basicExampleModal">
                 Messages par défaut
             </button>
         </div>
@@ -46,7 +46,7 @@
                 <form action="{{ route('message.store') }}" method="post">
                     @csrf
                     <div class="form-group">
-                        <textarea name="message" id="message" rows="6" class="form-control @error('message') is-invalid @enderror" placeholder="Saisir votre message ici..."></textarea>
+                        <textarea name="message" id="message" rows="6" maxlength="305" class="form-control @error('message') is-invalid @enderror" placeholder="Saisir votre message ici..."></textarea>
                         @error('message')
                             <div class="invalid-feedback">
                                 {{ $errors->first('message') }}
@@ -54,7 +54,10 @@
                         @enderror
                     </div>
                     <div class="form-group mt-3">
-                        <button type="submit" class="btn btn-blue white-text">Envoyer le message</button>
+                        <div class="mt-3 d-flex justify-content-center">
+                            <a href="{{ route('structure.index') }}" class="btn btn-sm grey darken-1 white-text">retour</a>
+                            <button type="submit" class="btn btn-blue white-text">Envoyer</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -75,14 +78,26 @@
                     <ul class="list-group">
                         <?php $k = 1; ?>
                         @foreach ($default_messages as $default_message)
-                            <li class="list-group-item" id="msg{{ $k }}">{{ $default_message->content }}</li>
+                            <li class="list-group-item">
+                                <form action="{{ route('destroyDefaultMessage', $default_message->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div id="msg{{ $k }}" class="messageContent">{{ $default_message->content }}</div>
+                                        @if (($default_message->structure_id) == session()->get('id'))
+                                            <div><button type="submit" class="btn btn-sm btn-danger">Suprrimer</button></div>
+                                        @endif
+                                    </div>
+                                    
+                                </form>
+                            </li>
                             <?php $k++; ?>
                         @endforeach
                     </ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-blue darken-1 white-text" data-toggle="modal" data-target="#defaultMessageModal">
-                        Enregistrer un message
+                        Ajouter
                     </button>
                 </div>
             </div>
@@ -124,7 +139,7 @@
 @section('extra-js')
     <script>
         $(document).ready(function () {
-           $('li').click(function() {
+           $('.messageContent').click(function() {
                 let identity = $(this).attr('id');
                 let text = $('#' + identity).text();
                 $('textarea').val(text);

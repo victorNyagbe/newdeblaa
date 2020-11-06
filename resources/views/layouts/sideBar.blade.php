@@ -85,7 +85,7 @@
                                         <b>Logo</b>
                                     </div>
                                 @else
-                                    <img src="{{ URL::asset('storage/'.session()->get('image')) }}" alt="logo-structure" width="100%">
+                                    <img src="{{ URL::asset('storage/app/public/'.session()->get('image')) }}" alt="logo-structure" width="100%">
                                 @endif
                             </div>
                         </td>
@@ -169,28 +169,54 @@
                     </div>
                 </div>
             </div>
-            <div class="pl-2 pr-2">
-                <span class="menu-item-sm-hide">
-                    &nbsp;<small><b><span>STATISTIQUES</span></b></small>
-                </span><br class="menu-item-sm-hide" />
-                <div>
-                    <a href="{{ route('messages.bilan') }}">
-                        <div class="item d-block d-md-none" style="border: none;">
-                            <i class="icofont-chart-bar-graph spinnerShower"></i><br>
-                            <b><span class="spinnerShower" style="font-size: 8px;">Bilan</span></b>
-                        </div>
-                        <div class="item d-none d-md-block d-lg-none" style="border: none;">
-                            <i class="icofont-chart-bar-graph spinnerShower"></i>
-                            <b><span class="spinnerShower" style="font-size: 8px;">Bilan des messages</span></b>
-                        </div>
-                        <div class="item d-none d-lg-block" style="border: none;">
-                            <i class="icofont-chart-bar-graph spinnerShower"></i>
-                            <b><span class="spinnerShower">Bilan des messages</span></b>
-                        </div>
-                    </a>
-                </div><br />
+            <div>
+                <a href="{{ route('messages.bilan') }}">
+                    <div class="item d-block d-md-none">
+                        <i class="icofont-chart-bar-graph spinnerShower"></i><br>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Bilan</span></b>
+                    </div>
+                    <div class="item d-none d-md-block d-lg-none">
+                        <i class="icofont-chart-bar-graph spinnerShower"></i>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Bilan des messages</span></b>
+                    </div>
+                    <div class="item d-none d-lg-block">
+                        <i class="icofont-chart-bar-graph spinnerShower"></i>
+                        <b><span class="spinnerShower">Bilan des messages</span></b>
+                    </div>
+                </a>
             </div>
-
+            <div>
+                <a href="{{ route('structure.statistique') }}">
+                    <div class="item d-block d-md-none">
+                        <i class="icofont-chart-growth spinnerShower"></i><br>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Statistique</span></b>
+                    </div>
+                    <div class="item d-none d-md-block d-lg-none">
+                        <i class="icofont-chart-growth spinnerShower"></i>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Statistique</span></b>
+                    </div>
+                    <div class="item d-none d-lg-block">
+                        <i class="icofont-chart-growth spinnerShower"></i>
+                        <b><span class="spinnerShower">Statistique</span></b>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{{ route('structure.factureIndex') }}">
+                    <div class="item d-block d-md-none">
+                        <i class="icofont-data"></i><br>
+                        <b><span style="font-size: 8px;">Factures</span></b>
+                    </div>
+                    <div class="item d-none d-md-block d-lg-none">
+                        <i class="icofont-data"></i>
+                        <b><span style="font-size: 8px;">Factures</span></b>
+                    </div>
+                    <div class="item d-none d-lg-block">
+                        <i class="icofont-data"></i>
+                        <b><span>Factures</span></b>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
     <div class="asside-content font-size-14">

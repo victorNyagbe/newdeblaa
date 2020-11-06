@@ -19,7 +19,7 @@
             font-family: comfortaa;
         }
 
-        li.list-group-item {
+        .messageContent {
             cursor: pointer
         }
     
@@ -53,10 +53,26 @@
                         @csrf
                         @method('PATCH')
                         <div class="form-group">
-                            <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="mot de passe" required autocomplete="off">
-                            @error('password')
+                            <input type="password" name="oldpassword" id="oldpassword" class="form-control @error('oldpassword') is-invalid @enderror" placeholder="ancien mot de passe" required autocomplete="off">
+                            @error('oldpassword')
                                 <div class="invalid-feedback">
-                                    {{ $errors->first('password') }}
+                                    {{ $errors->first('oldpassword') }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="newpassword" id="newpassword" class="form-control @error('newpassword') is-invalid @enderror" placeholder="nouveau mot de passe" required autocomplete="off">
+                            @error('newpassword')
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('newpassword') }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="newpassword_confirmation" id="newpassword_confirmation" class="form-control @error('newpassword_confirmation') is-invalid @enderror" placeholder="confirmer" required autocomplete="off">
+                            @error('newpassword_confirmation')
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('newpassword_confirmation') }}
                                 </div>
                             @enderror
                         </div>

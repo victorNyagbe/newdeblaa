@@ -43,13 +43,25 @@ Route::post('/message-store', 'MessageController@store')->name('message.store');
 
 Route::get('/messages/bilan', 'StructureController@bilan')->name('messages.bilan');
 
+Route::post('/nouveau_message', 'StructureController@renvoyer_message')->name('renvoyer.message');
+
+Route::get('/voir-message/{message_id}', 'StructureController@show_bilan')->name('messages.showBilan');
+
 Route::post('/default-messages', 'MessageController@storeDefaultMessage')->name('storeDefaultMessage');
+
+Route::delete('destroy-message/{defaultMessage}', 'StructureController@destroyDefaultMessage')->name('destroyDefaultMessage');
 
 Route::get('/contacts', 'ContactController@index')->name('contacts.index');
 
 Route::post('/contacts-store', 'ContactController@store')->name('contacts.store');
 
 Route::delete('/contact/{contact}/delete', 'ContactController@destroy')->name('contact.delete');
+
+Route::get('statistique', 'StructureController@index_stat')->name('structure.statistique');
+
+Route::get('mes-factures', 'StructureController@factures_index')->name('structure.factureIndex');
+
+Route::get('mes-factures/{facture}', 'StructureController@facture_show')->name('structure.factureShow');
 
 /*Administration's routes*/
 
@@ -67,6 +79,16 @@ Route::prefix('admin')->group(function () {
     Route::get('structures', 'Admin\AdminController@structure')->name('admin.structures');
 
     Route::post('register-structure', 'Admin\AdminController@registerStructure')->name('admin.registerStructure');
+
+    Route::get('statistiques', 'Admin\FactureController@statistique')->name('admin.statistique');
+
+    Route::get('statistique/{structure}', 'Admin\FactureController@statistique_show')->name('admin.statistiqueShow');
+
+    Route::post('reglement-facture', 'Admin\FactureController@payBill')->name('admin.payBill');
+
+    Route::get('factures', 'Admin\FactureController@index')->name('admin.facture_index');
+
+    Route::get('facture/{facture}', 'Admin\FactureController@show')->name('admin.facture_show');
 
     Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
 });

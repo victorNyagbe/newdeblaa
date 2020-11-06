@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/mdb.css') }}">
     <link rel="stylesheet" href="{{ asset('css/mdb.lite.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/adminstyle.css') }}">
     <link rel="stylesheet" href="{{ asset('icofont/icofont.css') }}">
+    <link rel="shortcut icon" href="{{ URL::asset('assets/images/deblaa.png') }}" type="image/x-icon">
     <title>Deblaa | Admin</title>
     <style>
 
@@ -26,7 +27,7 @@
     <!--Navbar -->
     <nav class="mb-1 navbar navbar-expand-lg navbar-dark primary-color-dark">
         <a class="navbar-brand" href="{{ route('admin.home') }}">
-            <img src="{{ asset('assets/images/deblaa.png') }}" height="35" alt="">
+            {{-- <img src="{{-- asset('assets/images/deblaa.png') --" height="35" alt=""> --}}
             Deblaa
         </a>
         @if (session()->has('id'))
@@ -37,26 +38,30 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item {{ $page == 'adminhome' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.home') }}">Accueil
-                        <span class="sr-only">(current)</span>
-                    </a>
+                        <a class="nav-link" href="{{ route('admin.home') }}">accueil
+                            <span class="sr-only">(current)</span>
+                        </a>
                     </li>
                     <li class="nav-item {{ $page == 'structure' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.structures') }}">Les structures</a>
+                        <a class="nav-link" href="{{ route('admin.structures') }}">les structures</a>
                     </li>
-                    
+                    <li class="nav-item {{ $page == 'statistique_index' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.statistique') }}">statistiques</a>
+                    </li>
+                    <li class="nav-item {{ $page == 'factures' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.facture_index') }}">factures</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ml-auto nav-flex-icons">
                     <li class="nav-item avatar dropdown">
-                    <a class="nav-link p-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-                        alt="avatar image" height="35">
-                    </a>
-                    <div class="dropdown-menu dropdown-primary dropdown-menu-md-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Profil</a>
-                        <a class="dropdown-item" href="{{ route('admin.logout') }}">Se déconnecter</a>
-                    </div>
+                        <a class="nav-link p-0" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ asset('assets/images/deblaa.png') }}" class="rounded-circle z-depth-0"
+                            alt="avatar image" height="35">
+                        </a>
+                        <div class="dropdown-menu dropdown-primary dropdown-menu-md-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="{{ route('admin.logout') }}">Se déconnecter</a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -121,5 +126,7 @@
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/mdb.js') }}"></script>
     <script src="{{ asset('js/popper.js') }}"></script>
+    <script src="{{ asset('js/printThis.js') }}"></script>
+    @yield('extra-js')
 </body>
 </html>
