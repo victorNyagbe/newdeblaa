@@ -36,7 +36,8 @@ class AdminController extends Controller
 
         Structure::create([
             'name' => $request->get('structure_name'),
-            'password' => Hash::make($request->get('pwd'))
+            'password' => Hash::make($request->get('pwd')),
+            'message_payer' => 0
         ]);
 
         return redirect()->route('admin.structures')->with('success', 'La structure a été ajoutée avec succès');

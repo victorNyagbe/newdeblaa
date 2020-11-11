@@ -51,6 +51,12 @@
                     <li class="nav-item {{ $page == 'factures' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.facture_index') }}">factures</a>
                     </li>
+                    <li class="nav-item {{ $page == 'tickets' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.ticketIndex') }}">tickets</a>
+                    </li>
+                    <li class="nav-item {{ $page == 'categorie_ticket' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.categorieTicketIndex') }}">categories_ticket</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ml-auto nav-flex-icons">
                     <li class="nav-item avatar dropdown">

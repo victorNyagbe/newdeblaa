@@ -16,7 +16,19 @@
                     <textarea name="bilan" id="bilan" class="form-control" rows="4" readonly>{{ $message->body }}</textarea>
                 </div>
                 <div class="mt-3 d-flex justify-content-between align-items-center">
-                    <div>Destinataires: {{ $message->destinataires }}</div>
+                    <div>
+                        <p>Destinataires: {{ $message->destinataires }}</p>
+                        <p>
+                            <?php
+                            if ((\Illuminate\Support\Str::of($message->body)->length()) > 160) {
+                                $nbre_pages = 2;
+                            } else {
+                                $nbre_pages = 1;
+                            }
+                            ?>
+                            Nombre de pages: {{ $nbre_pages }}
+                        </p>
+                    </div>
                     <div>Date: {{ $message->created_at->format('d-m-Y H:m:s') }}</div>
                 </div>
                 <div class="mt-5">

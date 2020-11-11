@@ -57,11 +57,15 @@ Route::post('/contacts-store', 'ContactController@store')->name('contacts.store'
 
 Route::delete('/contact/{contact}/delete', 'ContactController@destroy')->name('contact.delete');
 
-Route::get('statistique', 'StructureController@index_stat')->name('structure.statistique');
+//Route::get('statistique', 'StructureController@index_stat')->name('structure.statistique');
 
-Route::get('mes-factures', 'StructureController@factures_index')->name('structure.factureIndex');
+//Route::get('mes-factures', 'StructureController@factures_index')->name('structure.factureIndex');
 
-Route::get('mes-factures/{facture}', 'StructureController@facture_show')->name('structure.factureShow');
+//Route::get('mes-factures/{facture}', 'StructureController@facture_show')->name('structure.factureShow');
+
+Route::get('mon-ticket/sms', 'StructureController@ticket')->name('structure.ticket');
+
+Route::post('mon-ticket/validation-processing', 'StructureController@valider_ticket')->name('structure.validerTicket');
 
 /*Administration's routes*/
 
@@ -89,6 +93,26 @@ Route::prefix('admin')->group(function () {
     Route::get('factures', 'Admin\FactureController@index')->name('admin.facture_index');
 
     Route::get('facture/{facture}', 'Admin\FactureController@show')->name('admin.facture_show');
+
+    Route::get('categories-tickets', 'Admin\CategorieTicketController@index')->name('admin.categorieTicketIndex');
+
+    Route::post('categories-tickets/store', 'Admin\CategorieTicketController@store')->name('admin.categorieTicketStore');
+
+    Route::delete('categories-tickets/{categorieTicket}/delete', 'Admin\CategorieTicketController@destroy')->name('admin.categorieTicketDelete');
+
+    Route::get('tickets', 'Admin\TicketController@index')->name('admin.ticketIndex');
+
+    Route::get('ticket/perso', 'Admin\TicketController@persoIndex')->name('admin.ticketPerso');
+
+    Route::get('ticket/pro', 'Admin\TicketController@proIndex')->name('admin.ticketPro');
+
+    Route::get('ticket/promax', 'Admin\TicketController@proMaxIndex')->name('admin.ticketPromax');
+
+    Route::post('ticket/storeTicketPerso', 'Admin\TicketController@storePerso')->name('admin.storePerso');
+
+    Route::post('ticket/storeTicketPro', 'Admin\TicketController@storePro')->name('admin.storePro');
+
+    Route::post('ticket/storeTicketPromax', 'Admin\TicketController@storePromax')->name('admin.storePromax');
 
     Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
 });

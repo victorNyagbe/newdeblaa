@@ -50,6 +50,13 @@
                     </table>
                 </div>
             </div>
+            @if (count($factures) <= 0)
+                <div class="col-12 mt-5">
+                    <p class="text-center font-weight-bolder">
+                        <em>La liste de factures sera visible une fois la toute première facture réglée</em>
+                    </p>
+                </div>
+            @endif
         </div>
     </div>
 @endsection

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Cache;
+use App\Ticket;
 use App\Contact;
 use App\Facture;
 use App\Message;
 use App\Structure;
 use App\DefaultMessage;
+use App\CategorieTicket;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -49,6 +51,7 @@ class StructureController extends Controller
                 session()->put('name', $struc->name);
                 session()->put('image', $struc->image);
                 session()->put('category', 'structure');
+                session()->put('message_payer', $struc->message_payer);
 
                 return redirect()->route('structure.index');
             } else {
@@ -213,34 +216,76 @@ class StructureController extends Controller
         return $default_messages;
     }
 
-    public function index_stat()
-    {
-        $statistiques = Message::where([
-            ['structure_id', session()->get('id')],
-            ['paid', 0]
-        ])->orderByDesc('id')->get();
+    // public function index_stat()
+    // {
+    //     $statistiques = Message::where([
+    //         ['structure_id', session()->get('id')],
+    //         ['paid', 0]
+    //     ])->orderByDesc('id')->get();
 
-        return view('structure.statistiques.index', compact('statistiques'));
+    //     return view('structure.statistiques.index', compact('statistiques'));
+    // }
+
+    // public function factures_index()
+    // {
+    //     $factures = Facture::where('structure_id', session()->get('id'))->get();
+    //     return view('structure.statistiques.factureIndex', compact('factures'));
+    // }
+
+    // public function facture_show(Facture $facture)
+    // {
+    //     if ($facture->structure_id != session()->get('id')) {
+    //         return back()->with('error', 'Désolé, une erreur s\'est produite. Vous ne pouvez pas voir les détails de cette facture');
+    //     } else {
+    //         $messages = DB::table('completions')
+    //             ->join('factures', 'completions.facture_id', '=', 'factures.id')
+    //             ->join('messages', 'completions.message_id', '=', 'messages.id')
+    //             ->select('messages.*')
+    //             ->where('factures.numero', '=', $facture->numero)
+    //             ->get();
+    //         return view('structure.statistiques.factureShow', compact('facture', 'messages'));
+    //     }
+    // }
+
+    public function ticket()
+    {
+        return view('structure.ticket');
     }
 
-    public function factures_index()
+    public function valider_ticket(Request $request)
     {
-        $factures = Facture::where('structure_id', session()->get('id'))->get();
-        return view('structure.statistiques.factureIndex', compact('factures'));
-    }
+        $request->validate([
+            'code_ticket' => 'required'
+        ], 
+        [
+            'code_ticket.required' => 'Veuillez renseigner le code du ticket avant validation'
+        ]);
 
-    public function facture_show(Facture $facture)
-    {
-        if ($facture->structure_id != session()->get('id')) {
-            return back()->with('error', 'Désolé, une erreur s\'est produite. Vous ne pouvez pas voir les détails de cette facture');
+        $ticket_exists = Ticket::where([
+            ['code', '=', $request->input('code_ticket')],
+            ['deleted_at', '=', null]
+        ])->first();
+
+        if ($ticket_exists == null) {
+            return redirect()->back()->with('error', 'Opération non validée. Votre code ticket est invalide');
         } else {
-            $messages = DB::table('completions')
-                ->join('factures', 'completions.facture_id', '=', 'factures.id')
-                ->join('messages', 'completions.message_id', '=', 'messages.id')
-                ->select('messages.*')
-                ->where('factures.numero', '=', $facture->numero)
-                ->get();
-            return view('structure.statistiques.factureShow', compact('facture', 'messages'));
+            $sms = CategorieTicket::where('id', $ticket_exists->categorie_ticket_id)->get('nombre_sms')->first()->nombre_sms;
+            $montant = CategorieTicket::where('id', $ticket_exists->categorie_ticket_id)->get('montant')->first()->montant;
+            $ticket_exists->update([
+                'structure_id' => session()->get('id')
+            ]);
+            $ticket_deleted = Ticket::where('code', $request->input('code_ticket'))->delete();
+
+            $structure = Structure::where('id', session()->get('id'))->first();
+
+            $struc_message = $structure->message_payer;
+            $total_struc_message = intval($struc_message) + intval($sms);
+            $structure->update([
+                'message_payer' => $total_struc_message
+            ]);
+            session()->put('message_payer', $total_struc_message);
+
+            return back()->with('success', 'Opération validée. vous avez fait une recharge de ' . $montant . ' FCFA soit ' . $sms . ' SMS');
         }
     }
 

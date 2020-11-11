@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Ticket;
 use App\Contact;
 use App\Message;
 use App\DefaultMessage;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Structure extends Model
 {
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function messages()
     {
@@ -24,5 +25,10 @@ class Structure extends Model
     public function contacts()
     {
         return $this->hasMany(Contact::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
     }
 }

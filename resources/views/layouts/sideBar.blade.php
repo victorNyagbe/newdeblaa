@@ -185,7 +185,7 @@
                     </div>
                 </a>
             </div>
-            <div>
+            {{-- <div>
                 <a href="{{ route('structure.statistique') }}">
                     <div class="item d-block d-md-none">
                         <i class="icofont-chart-growth spinnerShower"></i><br>
@@ -200,8 +200,8 @@
                         <b><span class="spinnerShower">Statistique</span></b>
                     </div>
                 </a>
-            </div>
-            <div>
+            </div> --}}
+            {{-- <div>
                 <a href="{{ route('structure.factureIndex') }}">
                     <div class="item d-block d-md-none">
                         <i class="icofont-data"></i><br>
@@ -214,6 +214,22 @@
                     <div class="item d-none d-lg-block">
                         <i class="icofont-data"></i>
                         <b><span>Factures</span></b>
+                    </div>
+                </a>
+            </div> --}}
+            <div>
+                <a href="{{ route('structure.ticket') }}">
+                    <div class="item d-block d-md-none">
+                        <i class="icofont-credit-card"></i><br>
+                        <b><span style="font-size: 8px;">Ticket</span></b>
+                    </div>
+                    <div class="item d-none d-md-block d-lg-none">
+                        <i class="icofont-credit-card"></i>
+                        <b><span style="font-size: 8px;">Ticket</span></b>
+                    </div>
+                    <div class="item d-none d-lg-block">
+                        <i class="icofont-credit-card"></i>
+                        <b><span>valider un ticket</span></b>
                     </div>
                 </a>
             </div>
@@ -240,6 +256,10 @@
                         </a>
                     </td>
                     <td class="text-right">
+                        <a href="#!" class="btn btn-green white-text p-0 rounded m-0 z-depth-0"
+                        style="width: 22px; height: 22px; line-height: 22px;" data-toggle="modal" data-target="#showTicketModal">
+                            <i class="icofont-credit-card"></i>   
+                        </a>
                         <a href="{{ route('structure.logout') }}" title="Se déconnecter" class="btn btn-danger p-0 rounded m-0 z-depth-0"
                         style="width: 22px; height: 22px; line-height: 22px;">
                             <i class="icofont-power"></i>   
@@ -251,6 +271,22 @@
 
         @yield('content')
 
+    </div>
+
+    <div class="modal fade" id="showTicketModal" tabindex="-1" role="dialog" aria-labelledby="showTicketModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body py-3">
+                    Vous avez {{ session()->get('message_payer') }} sms
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection

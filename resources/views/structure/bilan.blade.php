@@ -21,13 +21,20 @@
                             <tr>
                                 <th scope="col">Message</th>
                                 <th scope="col">Destinataires</th>
-                                <th scope="col">Date</th>
+                                <th scope="col">Nombre de pages</th>
                                 <th scope="col">Heure</th>
                                 <th scope="col" class="text-center" width="100">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($bilans as $bilan)
+                                <?php
+                                    if ((\Illuminate\Support\Str::of($bilan->body)->length()) > 160) {
+                                        $nbre_pages = 2;
+                                    } else {
+                                        $nbre_pages = 1;
+                                    }
+                                ?>
                                 <tr>
                                     <td>
                                         @if (\Illuminate\Support\Str::of($bilan->body)->length() > 25)
@@ -37,8 +44,8 @@
                                         @endif
                                     </td>
                                     <td>{{ $bilan->destinataires }}</td>
+                                    <td>{{ $nbre_pages }}</td>
                                     <td>{{ $bilan->created_at->format('d-m-Y') }}</td>
-                                    <td>{{ $bilan->created_at->format('H:m:s') }}</td>
                                     <td class="text-center"><a href="{{ route('messages.showBilan', $bilan->id) }}" class="btn btn-sm btn-info">Voir</a></td>
                                 </tr>
                             @empty
