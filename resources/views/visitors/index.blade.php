@@ -61,11 +61,11 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" style="font-size: 13px;">
 
-                <a class="nav-link white-text" href="{{ route('main.home') }}"><b>Accueil</b></a>
+                {{-- <a class="nav-link white-text" href="{{ route('main.home') }}"><b>Accueil</b></a>
 
                 <a class="nav-link white-text" href="#}"><b>En savoir plus</b></a>
 
-                <a class="nav-link white-text" href="#"><b>Contactez-nous</b></a>
+                <a class="nav-link white-text" href="#"><b>Contactez-nous</b></a> --}}
 
                 <a class="nav-link white black-text font-weight-bold" href="{{ route('structure.loginForm') }}"><b>Connexion</b></a>
             </form>

@@ -20,7 +20,7 @@
                 @endif
                 
                 <h3 class="text-center mb-3">Connexion</h3>
-                <form action="{{ route('structure.login') }}" method="post">
+                <form action="{{ route('structure.login') }}" method="post" class="spinnerShower">
                     @csrf
                     <div class="form-group">
                         <label for="name">Nom de la structure:</label>
@@ -55,6 +55,13 @@
             </div>
         </div>
     </div>
+    {{-- Spinner --}}
+    <div id="spinner" style="display: none; position: absolute; top: 0; bottom: 0; line-height:100%; left: 0; right: 0; background-color: rgba(0,0,0, 0.5)">
+        <div class="text-center" style="margin-top: 200px;">
+            <img src="{{ URL::asset('assets/images/spinner.svg') }}" alt="loading ..." width="100px;">
+        </div>
+    </div>
+    {{-- /.Spinner --}}
 @endsection
 
 @section('script')
@@ -70,6 +77,10 @@
                 $('#passwordEye').attr('type','password');
                 $(this).css('display', 'none');
                 $('.btnEye').css('display', 'block')
+            });
+
+            $('.spinnerShower').submit(function () {
+                $('#spinner').fadeIn();
             });
         })
     </script>

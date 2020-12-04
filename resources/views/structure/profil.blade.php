@@ -27,7 +27,7 @@
                     <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
                         <ul>
                             @foreach ($errors->all() as $error)
-                                {{ $error }}
+                                <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                         <button type="button" class="close" aria-label="close" data-dismiss="alert">
@@ -58,7 +58,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-blue white-text">Enregistrer</button>
+                        <button type="submit" class="btn btn-blue white-text spinnerShower">Enregistrer</button>
                         <button type="button" class="btn btn-amber white-text" data-toggle="modal" data-target="#basicPasswordModal">
                             Changer le mot de passe
                         </button>

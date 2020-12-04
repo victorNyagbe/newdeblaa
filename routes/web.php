@@ -25,6 +25,8 @@ Route::get('/',  function() {
 
 Route::get('structure', 'StructureController@index')->name('structure.index');
 
+Route::get('structure/contacts-message', 'StructureController@createContact')->name('structure.createContact');
+
 Route::get('login', 'StructureController@loginForm')->name('structure.loginForm');
 
 Route::post('login', 'StructureController@login')->name('structure.login');
@@ -66,6 +68,40 @@ Route::delete('/contact/{contact}/delete', 'ContactController@destroy')->name('c
 Route::get('mon-ticket/sms', 'StructureController@ticket')->name('structure.ticket');
 
 Route::post('mon-ticket/validation-processing', 'StructureController@valider_ticket')->name('structure.validerTicket');
+
+Route::get('contacts', 'ContactController@contact')->name('structure.contact');
+
+Route::post('storepermanentcontact', 'ContactController@contact_permanent')->name('structure.storePermanentContact');
+
+Route::get('modfier-contact/{contact}', 'ContactController@editContactPermanent')->name('structure.editContactPermanent');
+
+Route::patch('modfier-contact/{contact}/updateProcessing', 'ContactController@updateContactPermanent')->name('structure.updateContactPermanentProcessing');
+
+Route::get('supprimer-contact/{contact}/destroyProcessing', 'ContactController@destroyPermanentContact')->name('structure.destroyContactPermanentProcessing');
+
+Route::post('contactsLinkToMessage', 'ContactController@contactPermanentLinkToMessage')->name('structure.contactPermanentLinkToMessage');
+
+Route::get('mes-groupes', 'GroupController@index')->name('groups.index');
+
+Route::get('mes-groupes/{group}', 'GroupController@show')->name('groups.show');
+
+Route::get('mes-groupes/{group}/Modifier', 'GroupController@edit')->name('groups.edit');
+
+Route::patch('mes-groupes/{group}/editProcessing', 'GroupController@update')->name('groups.update');
+
+Route::get('mes-groupes/{group}/deleteProcessing', 'GroupController@destroy')->name('groups.delete');
+
+Route::post('store-group', 'GroupController@store')->name('groups.store');
+
+Route::get('mes-groupes/{group}/ajouter-contact', 'GroupController@addContactView')->name('groups.addContactView');
+
+Route::post('storeContactProcessing/{group}', 'GroupController@addContactToGroup')->name('groups.storeContactProcessing');
+
+Route::post('storeContactByListOfContactProcessing/{group}', 'GroupController@addListOfContactToGroup')->name('groups.storeContactByListOfContactProcessing');
+
+Route::post('sendMessageByGroupProcessing', 'GroupController@sendMessageByIndividualGroup')->name('structure.sendMessageByGroupProcessing');
+
+Route::post('sendMessageByAllGroupProcessing', 'GroupController@sendMessageByGroups')->name('structure.sendMessageByAllGroupProcessing');
 
 /*Administration's routes*/
 

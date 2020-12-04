@@ -33,7 +33,7 @@
                     <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
                         <ul>
                             @foreach ($errors->all() as $error)
-                                {{ $error }}
+                                <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                         <button class="close" aria-label="close" data-dismiss="alert">
@@ -43,7 +43,7 @@
                 @endif
                 
     
-                <form action="{{ route('message.store') }}" method="post">
+                <form action="{{ route('message.store') }}" method="post" class="sendMessage">
                     @csrf
                     <div class="form-group">
                         <textarea name="message" id="message" rows="6" maxlength="305" class="form-control @error('message') is-invalid @enderror" placeholder="Saisir votre message ici..."></textarea>
@@ -55,13 +55,69 @@
                     </div>
                     <div class="form-group mt-3">
                         <div class="mt-3 d-flex justify-content-center">
-                            <a href="{{ route('structure.index') }}" class="btn btn-sm grey darken-1 white-text">retour</a>
-                            <button type="submit" class="btn btn-blue white-text">Envoyer</button>
+                            <a href="{{ route('structure.index') }}" class="btn grey darken-1 white-text spinnerShower">retour</a>
+                            <button type="submit" class="btn btn-blue white-text sendButton">Envoyer</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+        {{-- <div class="row justify-content-center mt-4">
+            <div class="col-12 col-md-10">
+                <form action="{{ route('contacts.store') }}" method="POST">
+                    @csrf
+                    <div class="form-row">
+                        <div class="col-4">
+                            <input type="text" name="number" id="number" placeholder="Téléphone" class="form-control" required autocomplete="off" autofocus>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" name="name" id="name" placeholder="Noms et prénoms" class="form-control" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group mt-3 d-flex justify-content-between align-items-center">
+                        <button type="submit" class="btn btn-green btn-sm white-text spinnerShower insertContact" disabled>Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div> --}}
+        {{-- <php
+            $j = 0;
+        ?> --}}
+        {{-- @if (count($contacts) > 0)
+            <div class="row justify-content-center mt-3">
+                <div class="col-12 col-md-10">
+                    <div class="table-responsive-sm text-nowrap">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">N°</th>
+                                    <th scope="col">Téléphone</th>
+                                    <th scope="col">Noms et prénoms</th>
+                                    <th scope="col" class="text-center" width="100">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($contacts as $contact)
+                                    <tr>
+                                        <th scope="row">{{ $j+1 }}</th>
+                                        <td>{{ $contact->number }}</td>
+                                        <td>{{ $contact->name }}</td>
+                                        <td>
+                                            <form action="{{ route('contact.delete', $contact->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                
+                                                <button type="submit" class="btn btn-sm btn-red white-text my-1 spinnerShower">Supprimer</button>
+                                            </form>
+                                        </td>   
+                                    </tr>
+                                @endforeach                           
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif --}}
     </div>
     <!-- Modal -->
     <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -125,7 +181,7 @@
                             </div>
                         @enderror
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-green darken-1 white-text" >
+                            <button type="submit" class="btn btn-green darken-1 white-text spinnerShower saveDefaultMess" disabled>
                                 Enregistrer
                             </button>
                         </div>
@@ -134,6 +190,14 @@
             </div>
         </div>
     </div>
+    {{-- MessageSending --}}
+    <div id="MessageSending" style="display: none; position: absolute; top: 0; bottom: 0; line-height:100%; left: 0; right: 0; background-color: rgba(255,253,252, 0.5)">
+        <div class="text-center gifImage" style="margin-top: 200px;">
+            <img src="{{ URL::asset('assets/images/gif2.gif') }}" alt="Votre message est en cours d'envoi ..." class="w-25">
+            <h4 class="text-center">Votre message est en cours d'envoi ...</h4>
+        </div>
+    </div>
+    {{-- /.MessageSending --}}
 @endsection
 
 @section('extra-js')
@@ -145,6 +209,27 @@
                 $('textarea').val(text);
                 $(this).attr('data-dismiss', 'modal');
            });
+           
+           $('#defaultMessage').keyup(function() {
+               if ($(this).val().length >= 5) {
+                    $('.saveDefaultMess').removeAttr('disabled')
+               } else {
+                $('.saveDefaultMess').attr('disabled', true)
+               }
+           });
+
+           $('#name').keyup(function () {
+                if ($('#number').val().length > 7 && $('#name').val().length > 2) {
+                    $('.insertContact').removeAttr('disabled');
+                } else {
+                    $('.insertContact').attr('disabled', true);
+                }
+            });
+
+            $('.sendMessage').submit(function() {
+                $('#MessageSending').fadeIn();
+                $('.gifImage').attr('class', 'text-center animated rotateIn')
+            });
         });
     </script>
 @endsection

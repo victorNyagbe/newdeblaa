@@ -58,7 +58,7 @@
 
 @section('sideBar')
     <div class="side-bar indigo lighten-5">
-        <a href="{{ route('main.home') }}">
+        <a href="{{ route('main.home') }}" class="spinnerShower">
             <div class="indigo p-1 darken-1">
                 <div class="container-fluid">
                     <div class="row">
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('structure.showProfile') }}">
+        <a href="{{ route('structure.showProfile') }}" class="spinnerShower">
             <div class="logo p-2 indigo lighten-4 black-text">
                 <table width="100%">
                     <tr>
@@ -90,7 +90,7 @@
                             </div>
                         </td>
                         <td class="menu-item-sm-hide">
-                            <a href="{{ route('structure.showProfile') }}" class="ml-2 black-text text-decoration-none">
+                            <a href="{{ route('structure.showProfile') }}" class="ml-2 black-text text-decoration-none spinnerShower">
                                 <small>{{ session()->get('name') }}</small>
                             </a>
                         </td>
@@ -100,8 +100,56 @@
         </a>
 
         <div class="side-bar-item">
+            {{-- <div>
+                <a href="{{ route('main.home') }}">
+                    <div class="item d-block d-md-none">
+                        <i class="icofont-home spinnerShower"></i><br>
+                        <span class="spinnerShower" style="font-size: 8px;"><b>Accueil</b></span>
+                    </div>
+                    <div class="item d-none d-md-block d-lg-none">
+                        <i class="icofont-home spinnerShower"></i><br>
+                        <span class="spinnerShower" style="font-size: 8px;"><b>Accueil</b></span>
+                    </div>
+                    <div class="item d-none d-lg-block">
+                        <i class="icofont-home spinnerShower"></i>&nbsp;
+                        <span class="spinnerShower"><b>Accueil</b></span>
+                    </div>
+                </a>
+            </div> --}}
             <div>
-                <a href="{{ route('structure.message') }}">
+                <a href="{{ route('structure.contact') }}" class="spinneShower">
+                    <div class="item d-block d-md-none">
+                        <i class="icofont-user"></i><br>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Contacts</span></b>
+                    </div>
+                    <div class="item d-none d-md-block d-lg-none">
+                        <i class="icofont-user"></i><br>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Contacts</span></b>
+                    </div>
+                    <div class="item d-none d-lg-block">
+                        <i class="icofont-user"></i>
+                        <b><span class="spinnerShower">Mes contacts</span></b>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{{ route('groups.index') }}" class="spinneShower">
+                    <div class="item d-block d-md-none">
+                        <i class="icofont-users"></i><br>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Groupes</span></b>
+                    </div>
+                    <div class="item d-none d-md-block d-lg-none">
+                        <i class="icofont-users"></i><br>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Groupes</span></b>
+                    </div>
+                    <div class="item d-none d-lg-block">
+                        <i class="icofont-users"></i>
+                        <b><span class="spinnerShower">Mes groupes</span></b>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <a href="{{ route('structure.createContact') }}">
                     <div class="item d-block d-md-none">
                         <i class="icofont-envelope spinnerShower"></i><br>
                         <span class="spinnerShower" style="font-size: 8px;"><b>Message</b></span>
@@ -137,14 +185,14 @@
                     </div>
                     <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
                         <div class="text-center px-md-4">
-                                <a href="{{ route('structure.showProfile') }}">
+                                <a href="{{ route('structure.showProfile') }}" class="spinnerShower">
                                     <div class="d-block d-md-none">
                                         <i class="icofont-user spinnerShower"></i><br>
                                         <span  class="spinnerShower" style="font-size: 8px;">Profil</span>
                                     </div>
                                     <div class="d-none d-md-block d-lg-none">
                                         <i class="icofont-user spinnerShower"></i><br>
-                                        <span  class="spinnerShower" style="font-size: 8px;">Afficher le profil</span>
+                                        <span class="spinnerShower" style="font-size: 8px;">Afficher le profil</span>
                                     </div>
                                     <div class="d-none d-lg-block">
                                         <i class="icofont-user spinnerShower"></i>&nbsp;
@@ -176,7 +224,7 @@
                         <b><span class="spinnerShower" style="font-size: 8px;">Bilan</span></b>
                     </div>
                     <div class="item d-none d-md-block d-lg-none">
-                        <i class="icofont-chart-bar-graph spinnerShower"></i>
+                        <i class="icofont-chart-bar-graph spinnerShower"></i><br>
                         <b><span class="spinnerShower" style="font-size: 8px;">Bilan des messages</span></b>
                     </div>
                     <div class="item d-none d-lg-block">
@@ -218,21 +266,22 @@
                 </a>
             </div> --}}
             <div>
-                <a href="{{ route('structure.ticket') }}">
+                <a href="{{ route('structure.ticket') }}" class="spinneShower">
                     <div class="item d-block d-md-none">
                         <i class="icofont-credit-card"></i><br>
-                        <b><span style="font-size: 8px;">Ticket</span></b>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Ticket</span></b>
                     </div>
                     <div class="item d-none d-md-block d-lg-none">
-                        <i class="icofont-credit-card"></i>
-                        <b><span style="font-size: 8px;">Ticket</span></b>
+                        <i class="icofont-credit-card"></i><br>
+                        <b><span class="spinnerShower" style="font-size: 8px;">Ticket</span></b>
                     </div>
                     <div class="item d-none d-lg-block">
                         <i class="icofont-credit-card"></i>
-                        <b><span>valider un ticket</span></b>
+                        <b><span class="spinnerShower">valider un ticket</span></b>
                     </div>
                 </a>
             </div>
+            
         </div>
     </div>
     <div class="asside-content font-size-14">

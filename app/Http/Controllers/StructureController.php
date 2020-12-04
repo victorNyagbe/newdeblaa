@@ -20,12 +20,25 @@ class StructureController extends Controller
 
     public function __construct()
     {
-        $this->middleware('check.structure')->except(['loginForm', 'login']);
+        $this->middleware('check.structure')->except(['loginForm', 'login', 'bilan']);
     }
 
     public function index()
     {
-        return view('structure.index');
+        // $contacts = Contact::where([
+        //     ['structure_id', session()->get('id')],
+        //     ['permanent', 0]
+        // ])->get();
+        return view('structure.panel');
+    }
+
+    public function createContact()
+    {
+        $contacts = Contact::where([
+            ['structure_id', session()->get('id')],
+            ['permanent', 0]
+        ])->get();
+        return view('structure.createContact', compact('contacts'));
     }
 
     public function loginForm()
@@ -71,7 +84,9 @@ class StructureController extends Controller
     {
         $default_messages = $this->defaultMessage();
 
-        return view('structure.message', compact('default_messages'));
+        $contacts = Contact::where('structure_id', session()->get('id'))->get();
+
+        return view('structure.message', compact('default_messages', 'contacts'));
     }
 
     public function show_profile()
@@ -146,6 +161,7 @@ class StructureController extends Controller
 
     public function bilan()
     {
+        
         $bilans = Message::where('structure_id', session()->get('id'))->orderByDesc('id')->get();
 
         return view('structure.bilan', compact('bilans'));

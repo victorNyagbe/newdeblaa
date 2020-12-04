@@ -49,12 +49,12 @@
             </div>
         </div>
         <div class="mt-4 d-flex justify-content-center">
-            <a href="{{ route('messages.bilan') }}" class="btn btn-sm grey darken-1 white-text">Retour</a>
+            <a href="{{ route('messages.bilan') }}" class="btn btn-sm grey darken-1 white-text spinnerShower">Retour</a>
             <form action="{{ route('renvoyer.message') }}" method="post">
                 @csrf
                 <?php $hasard = random_int(1000, 9000); ?>
                 <input type="hidden" name="msgi" id="msgi" value="#{{ $message->id }}">
-                <button type="submit" class="btn btn-sm blue lighten-1 white-text">Renvoyer un message</button>
+                <button type="submit" class="btn btn-sm blue lighten-1 white-text spinnerShower">Renvoyer un message</button>
             </form>
         </div>
     </div>

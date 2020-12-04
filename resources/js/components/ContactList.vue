@@ -36,47 +36,47 @@
 </template>
 
 <script>
-    export default {
+    // export default {
 
-        data() {
-            return {
-                contacts: {},
-                dataTable: false
-            }
-        },
+    //     data() {
+    //         return {
+    //             contacts: {},
+    //             dataTable: false
+    //         }
+    //     },
 
-        created() {
-            axios.get("contacts")
-            .then(response => {
-                if (response.data.length > 0) {
-                    this.dataTable = true
-                }
-                this.contacts = response.data
-            })
-            .catch(error => console.log(error));
-        },
+    //     created() {
+    //         axios.get("contacts")
+    //         .then(response => {
+    //             if (response.data.length > 0) {
+    //                 this.dataTable = true
+    //             }
+    //             this.contacts = response.data
+    //         })
+    //         .catch(error => console.log(error));
+    //     },
 
-        methods: {
-            refresh(contacts) {
-                this.contacts = contacts.data
-            },
+    //     methods: {
+    //         refresh(contacts) {
+    //             this.contacts = contacts.data
+    //         },
 
-            deleteContact(id) {
-                axios.delete("contact/" + id + "/delete")
-                .then(response => {
-                    if (response.data.length > 0) {
-                        this.dataTable = true
-                    } else {
-                        this.dataTable = false
-                    }
-                    this.contacts = response.data
-                })
-                .catch(error => console.log(error))
-            }
-        },
+    //         deleteContact(id) {
+    //             axios.delete("contact/" + id + "/delete")
+    //             .then(response => {
+    //                 if (response.data.length > 0) {
+    //                     this.dataTable = true
+    //                 } else {
+    //                     this.dataTable = false
+    //                 }
+    //                 this.contacts = response.data
+    //             })
+    //             .catch(error => console.log(error))
+    //         }
+    //     },
 
-        mounted() {
-            console.log('Component mounted.')
-        }
-    }
+    //     mounted() {
+    //         console.log('Component mounted.')
+    //     }
+    // }
 </script>

@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+@extends('layouts.sideBar')
 
 @section('content')
     <div class="container">
@@ -35,22 +35,24 @@
                     </div>
                 </div>
             @endif
-            <div class="col-12 col-md-8">
-                <form action="{{ route('structure.validerTicket') }}" method="post">
-                    @csrf
-                    <div class="form-row">
-                        <div class="col-8">
-                            <input type="text" name="code_ticket" id="code_ticket" class="form-control" placeholder="Saisir le code ticket ici..." value="{{ old('code_ticket') }}" autocomplete="off" required>
+            @unless ($message = Session::get('success'))
+                <div class="col-12 col-md-8">
+                    <form action="{{ route('structure.validerTicket') }}" method="post">
+                        @csrf
+                        <div class="form-row">
+                            <div class="col-8">
+                                <input type="text" name="code_ticket" id="code_ticket" class="form-control" placeholder="Saisir le code ticket ici..." value="{{ old('code_ticket') }}" autocomplete="off" required>
+                            </div>
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-sm btn-green white-text mt-0 rounded">valider</button>
+                            </div>
                         </div>
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-sm btn-green white-text mt-0 rounded">valider</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            @endunless
         </div>
         <div class="row mt-4 justify-content-center">
-            <div class="col-12 col-md-4 mt-3 border border-light z-depth-2 py-5">
+            <div class="col-12 col-sm-6 col-md-4 mt-3 border border-light z-depth-2 py-5">
                 <h3 class="h3-respnsive text-center">Vous avez {{ session()->get('message_payer') }} sms</h3>
             </div>
         </div>
