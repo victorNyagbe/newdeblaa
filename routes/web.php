@@ -118,6 +118,10 @@ Route::prefix('admin')->group(function () {
 
     Route::get('structures', 'Admin\AdminController@structure')->name('admin.structures');
 
+    Route::get('structure/{structure}', 'Admin\StructureController@show')->name('admin.structureShow');
+    
+    Route::delete('structure/{structure}/deleteProcessing', 'Admin\StructureController@destroy')->name('admin.structureDestroy');
+
     Route::post('register-structure', 'Admin\AdminController@registerStructure')->name('admin.registerStructure');
 
     Route::get('statistiques', 'Admin\FactureController@statistique')->name('admin.statistique');

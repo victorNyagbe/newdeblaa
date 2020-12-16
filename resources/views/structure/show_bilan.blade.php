@@ -36,12 +36,23 @@
                     <div class="table-responsive-sm text-nowrap">
                         <table class="table table-striped table-sm">
                             <tbody>
-                                @foreach ($cacheContacts as $cacheContact)
-                                    <tr>
-                                        <td>{{ $cacheContact->name }}</td>
-                                        <td>{{ $cacheContact->number }}</td>
-                                    </tr>
-                                @endforeach
+                                @if (count($cacheContacts) > 0)
+                                    @foreach ($cacheContacts as $cacheContact)
+                                        <tr>
+                                            <td>{{ $cacheContact->name }}</td>
+                                            <td>{{ $cacheContact->number }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+
+                                @if (count($contacts) > 0)
+                                    @foreach ($contacts as $contact)
+                                        <tr>
+                                            <td>{{ \App\Contact::where('id', $contact->contact_id)->value('name') }}</td>
+                                            <td>{{ \App\Contact::where('id', $contact->contact_id)->value('number') }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

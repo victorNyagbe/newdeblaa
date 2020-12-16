@@ -29,7 +29,8 @@ class StructureController extends Controller
         //     ['structure_id', session()->get('id')],
         //     ['permanent', 0]
         // ])->get();
-        return view('structure.panel');
+        $verifyTicketPaidByStructure = Ticket::where('structure_id', session()->get('id'))->get();
+        return view('structure.panel', compact('verifyTicketPaidByStructure'));
     }
 
     public function createContact()
@@ -176,7 +177,12 @@ class StructureController extends Controller
             ['message_id', $message_id]
         ])->get();
 
-        return view('structure.show_bilan', compact('cacheContacts', 'message'));
+        $contacts = DB::table('contact_message')->where([
+            ['message_id', $message_id],
+            ['structure_id', session()->get('id')]
+        ])->get();
+
+        return view('structure.show_bilan', compact('cacheContacts', 'message', 'contacts'));
     }
 
     public function renvoyer_message(Request $request)

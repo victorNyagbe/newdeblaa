@@ -65,11 +65,11 @@ class MessageController extends Controller
                                 session()->forget('contactsParGroupe');
                             }
 
-                            $structure->update([
+                            $struct = $structure->update([
                                 'message_payer' => $structure->message_payer - $nombreSms
                             ]);
 
-                            session()->put('message_payer', $structure->message_payer - $nombreSms);
+                            session()->put('message_payer', $struct);
 
                             $api_contactsParGroupe = new Sender("DEBLAA");
         
@@ -84,7 +84,12 @@ class MessageController extends Controller
 
                             session()->forget('contactsParGroupe');
 
-                            $this->storeMessageIntoDatabase($request->get('message'), session()->get('id'), $nombreDesContacts, 0);
+                            $message1 = $this->storeMessageIntoDatabase($request->get('message'), session()->get('id'), $nombreDesContacts, 0);
+
+                            foreach ($contactsParGroupe as $contactParGroupe)
+                            {
+                                $this->storeContactMessageIntoDB($contactParGroupe, $message1->id, session()->get('id'));
+                            }
 
                             return redirect()->route('messages.bilan')->with('success', 'votre message a été envoyé avec succès');
 
@@ -118,11 +123,11 @@ class MessageController extends Controller
                                 session()->forget('groups');
                             }
 
-                            $structure->update([
+                            $struct2 = $structure->update([
                                 'message_payer' => $structure->message_payer - $countSms
                             ]);
 
-                            session()->put('message_payer', $structure->message_payer - $countSms);
+                            session()->put('message_payer', $struct2);
 
                             $api_allNumbers = new Sender("DEBLAA");
         
@@ -137,7 +142,12 @@ class MessageController extends Controller
 
                             session()->forget('groups');
 
-                            $this->storeMessageIntoDatabase($request->get('message'), session()->get('id'), $countAllNumbers, 0);
+                            $message2 = $this->storeMessageIntoDatabase($request->get('message'), session()->get('id'), $countAllNumbers, 0);
+
+                            foreach ($all_numbers as $number)
+                            {
+                                $this->storeContactMessageIntoDB($number, $message2->id, session()->get('id'));
+                            }
 
                             return redirect()->route('messages.bilan')->with('success', 'votre message a été envoyé avec succès');
                         
@@ -155,11 +165,11 @@ class MessageController extends Controller
                                 session()->forget('mes-contacts');
                             }
 
-                            $structure->update([
+                            $struct3 = $structure->update([
                                 'message_payer' => $structure->message_payer - $nombreSmsARetrancher
                             ]);
 
-                            session()->put('message_payer', $structure->message_payer - $nombreSmsARetrancher);
+                            session()->put('message_payer', $struct3);
 
                             $api_contactsPermanents = new Sender("DEBLAA");
         
@@ -174,7 +184,12 @@ class MessageController extends Controller
 
                             session()->forget('mes-contacts');
 
-                            $this->storeMessageIntoDatabase($request->get('message'), session()->get('id'), $nombre_contact, 0);
+                            $message3 = $this->storeMessageIntoDatabase($request->get('message'), session()->get('id'), $nombre_contact, 0);
+
+                            foreach ($contacts as $contact)
+                            {
+                                $this->storeContactMessageIntoDB($contact, $message3->id, session()->get('id'));
+                            }
 
                             return redirect()->route('messages.bilan')->with('success', 'votre message a été envoyé avec succès');
 
@@ -183,11 +198,11 @@ class MessageController extends Controller
                                 return back()->with('error', 'Le message n\'a pas de destinataires');
                             } else {
     
-                                $structure->update([
+                                $struct4 = $structure->update([
                                     'message_payer' => $structure->message_payer - $verify_nombresms
                                 ]);
     
-                                session()->put('message_payer', $structure->message_payer - $verify_nombresms);
+                                session()->put('message_payer', $struct4);
             
                                 $contacts = Contact::where([
                                     ['structure_id', session()->get('id')],
@@ -203,14 +218,14 @@ class MessageController extends Controller
                                     $api->Submit($message, '228'.$contact->number, "yAYu1Q7C9FKy/1dOOBSHvpcrTldsEHGHtM2NjcuF4iU=", "4460f3b0-3a6a-49f4-8cce-d5900b86723d");
                                 }
             
-                                $message = $this->storeMessageIntoDatabase($request->get('message'), session()->get('id'), $destinataires, 0);
+                                $message4 = $this->storeMessageIntoDatabase($request->get('message'), session()->get('id'), $destinataires, 0);
             
                                 foreach ($contacts as $contact) {
                                     if ($contact->permanent == 0) {
                                         Cache::create([
                                             'name' => $contact->name,
                                             'number' => $contact->number,
-                                            'message_id' => $message->id,
+                                            'message_id' => $message4->id,
                                             'structure_id' => session()->get('id')
                                         ]);
                 
@@ -269,5 +284,21 @@ class MessageController extends Controller
         ]);
 
         return $message;
+    }
+
+    private function storeContactMessageIntoDB(string $number, int $messageId, int $structureId)
+    {
+        $contactId = Contact::where([
+            ['number', $number],
+            ['structure_id', session()->get('id')]
+        ])->value('id');
+
+        $contactMessage = DB::table('contact_message')->insert([
+            'contact_id' => $contactId,
+            'message_id' => $messageId,
+            'structure_id' => $structureId
+        ]);
+
+        return $contactMessage;
     }
 }

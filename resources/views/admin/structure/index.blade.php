@@ -57,9 +57,11 @@
                                     <td>{{ count($structure->messages) }}</td>
                                     <td>{{ $destinataires }}</td>
                                     <td class="btn-group">
-                                        <form action="" method="post">
-                                            <a href="#" class="btn btn-primary btn-sm p-2 mt-0"><span class="icofont icofont-2x icofont-eye"></span></a>
-                                            <button type="submit" class="btn btn-sm btn-danger p-2"><span class="icofont icofont-2x icofont-trash"></span></button>
+                                        <form action="{{ route('admin.structureDestroy', $structure->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <a href="{{ route('admin.structureShow', $structure->id) }}" class="btn btn-primary btn-sm p-2 mt-0"><span class="icofont icofont-2x icofont-eye"></span></a>
+                                            <button type="submit" class="btn btn-sm btn-danger p-2" onclick="return confirm('Êtes-vous certain de vouloir supprimer cette structure?')"><span class="icofont icofont-2x icofont-trash"></span></button>
                                         </form>
                                     </td>
                                 </tr>
